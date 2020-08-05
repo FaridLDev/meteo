@@ -1,0 +1,10 @@
+@import url('./animations.css');
+@import url('./bootstrap.css');
+@import url('./bootstrap-theme.css');
+@import url('./font-awesome.css');
+@import url('./style.css');
+
+
+body {
+    background-color: lightgray;
+}

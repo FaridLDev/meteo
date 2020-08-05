@@ -1,0 +1,141 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Meteo{% endblock %}
+
+{% block body %}
+
+<div class="cloud floating">
+    <img src="{{ asset('build/images/cloud.png') }}"  alt="Scoop Themes">
+</div>
+
+<div class="cloud pos1 fliped floating">
+    <img src="{{ asset('build/images/cloud.png') }}" alt="Scoop Themes">
+</div>
+
+<div class="cloud pos2 floating">
+    <img src="{{ asset('build/images/cloud.png') }}" alt="Scoop Themes">
+</div>
+
+<div class="cloud pos3 fliped floating">
+    <img src="{{ asset('build/images/cloud.png') }}" alt="Scoop Themes">
+</div>
+
+<div id="wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <img src="{{ asset('build/images/logo.png') }}" alt="Scoop Themes Logo">
+
+                {% if data is defined %}
+                    <h1 class="subtitle">{{city}}</h1>
+                    <br/>
+                <table class="table">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Température(C°)</th>
+                        <th scope="col">Température Max(C°)</th>
+                        <th scope="col">Température Min(C°)</th>
+                        <th scope="col">Pression(hPa)</th>
+                        <th scope="col">Humidité(%)</th>
+                        <th scope="col">Vent(km/h)</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>{{temperature_celsius}}</td>
+                        <td>{{temperature_max_celsius}}</td>
+                        <td>{{temperature_min_celsius}}</td>
+                        <td>{{pressure}}</td>
+                        <td>{{humidity}}</td>
+                        <td>{{wind_km}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                    <br/>
+{%  elseif ville == null  %}
+     <br/>
+     <div class="emptycity">
+         <!--strong>Attentio!! Vous n'avez pas indiqué la ville.</strong-->
+     </div>
+
+    {% elseif ville is defined  %}
+        <br/>
+        <div class="alert alert-danger">
+            <strong>Attention!</strong> La ville <strong>{{ville}}</strong>  n'existe pas.
+        </div>
+    {% endif %}
+
+    <div class="center-block col-md-4" style="float: none;">
+        <form action="{{ path('meteo') }}" method : "GET" >
+        <div class="form-group">
+            <input type="text" class="form-control" id="formGroupExampleInput" name='ville' placeholder="Indiquer la Ville">
+        </div>
+        <button type="submit" class="btn btn-primary center-block" style="float: none;">Rechercher</button>
+        </form>
+    </div>
+    <br/>
+</div>
+<div class="col-sm-12 align-center">
+    <ul class="social-network social-circle">
+
+        <li><a href="https://github.com/FaridLDev/meteo.git" class="icoGit" title="Github"><i class="fa fa-github"></i></a>
+        </li>
+    </ul>
+</div>
+</div>
+<!--div class="row">
+<div class="col-lg-6 col-lg-offset-3">
+    <p class="mt">Symfony 5.0
+    </p>
+</div>
+</div-->
+</div>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    $(document).ready( function () {
+    $('#wrapper').height($(document).height());
+    // I only have one form on the page but you can be more specific if need be.
+    var $form = $('form');
+
+    if ( $form.length > 0 ) {
+    $('form input[type="submit"]').bind('click', function ( event ) {
+        if ( event ) event.preventDefault();
+        // validate_input() is a validation function I wrote, you'll have to substitute this with your own.
+        if ( $form.validate() ) { register($form); }
+    });
+    }
+    });
+
+    function appendResult(userText , className, iconClass){
+    var resultHTML = "<div class='stretchLeft result "+ className + "'>" + userText + " <span class='fa fa-" + iconClass + "'></span>" + "</div>";
+    $('body').append(resultHTML);
+    $('.result').delay(10000).fadeOut('1000');
+    }
+
+    function register($form) {
+    $.ajax({
+    type: $form.attr('method'),
+    url: $form.attr('action'),
+    data: $form.serialize(),
+    cache       : false,
+    dataType    : 'json',
+    contentType: "application/json; charset=utf-8",
+    error       : function(err) { alert("Could not connect to the registration server. Please try again later."); },
+    success     : function(data) {
+        if (data.result != "success") {
+            appendResult('Wrong Email Or You Are Already Registered, Try Again', 'error', 'exclamation');
+        } else {
+            // It worked, carry on...
+            appendResult('Successful, Check Your Email For Confirmation ', 'success', 'check');
+        }
+    }
+    });
+    }
+
+</script>
+
+{% endblock %}
