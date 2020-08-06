@@ -1,0 +1,14 @@
+.content {
+    padding: 65px 0 65px 0;
+    position: relative;
+}
+
+.centered img {
+    max-width: 100%;
+    border: 0;
+    vertical-align: middle;
+}
+
+.centered, p.large.centered {
+    text-align: center;
+}

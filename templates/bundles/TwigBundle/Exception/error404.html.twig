@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page Error 404{% endblock %}
+
+{% block body %}
+
+    <div class="content centered"><img style="width:500px;"  src="{{ asset('build/images/something-lost.png') }}">
+        <h1>Oops, looks like the page is lost.</h1>
+        <p style="font-size:22px;" class="sub-header text-block-narrow">This is not a fault, just an accident that was not intentional.</p>
+    </div>
+
+{% endblock %}
